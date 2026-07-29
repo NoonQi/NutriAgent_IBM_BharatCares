@@ -304,12 +304,13 @@
       stepText.innerText = 'Step 2/3: Analyzing Biomarkers with Groq LLM...';
     }, 1500);
 
-    try {
-      const response = await fetch('http://127.0.0.1:8000/api/analyze', {
-        method: 'POST',
-        body: formData
-      });
+    // Fallback to localhost during local development if the env var isn't set
+const BACKEND_URL = window.env?.BACKEND_URL || 'http://127.0.0.1:8000';
 
+const response = await fetch(`${BACKEND_URL}/api/analyze`, {
+  method: 'POST',
+  body: formData
+});
       clearTimeout(progressTimer);
 
       fill.style.width = '90%';
